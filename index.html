@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1d">
 <title>THE UNKNOWN ARCHIVE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,627 +12,160 @@
 
 <style>
 :root {
-  --gold: #d8bd83;
-  --gold-light: #f2dfb2;
-  --text: #e9e6df;
-  --muted: #9297ac;
-  --panel: rgba(12, 18, 39, .76);
-  --border: rgba(216, 189, 131, .23);
+  --gold:#d8bd83;
+  --gold-light:#f2dfb2;
+  --text:#e9e6df;
+  --muted:#9297ac;
+  --panel:rgba(12,18,39,.76);
+  --border:rgba(216,189,131,.23);
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: var(--text);
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;overflow-x:hidden;color:var(--text);
   background:
-    radial-gradient(ellipse at 50% 0%, #182849 0%, transparent 48%),
-    radial-gradient(ellipse at 15% 65%, #111d39 0%, transparent 45%),
-    linear-gradient(180deg, #060914 0%, #080d1d 48%, #050710 100%);
-  font-family: 'Manrope', sans-serif;
+    radial-gradient(ellipse at 50% 0%,#182849 0%,transparent 48%),
+    radial-gradient(ellipse at 15% 65%,#111d39 0%,transparent 45%),
+    linear-gradient(180deg,#060914 0%,#080d1d 48%,#050710 100%);
+  font-family:'Manrope',sans-serif;
 }
-
-#sky {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
+#sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.nebula{position:fixed;width:450px;height:450px;border-radius:50%;filter:blur(110px);opacity:.10;pointer-events:none;z-index:0}
+.nebula.one{background:#536fbd;top:8%;left:-180px}
+.nebula.two{background:#a78b54;right:-220px;top:42%}
+.page{position:relative;z-index:1;width:min(100% - 32px,940px);margin:0 auto;padding:65px 0 35px}
+.topline{display:flex;justify-content:center;align-items:center;gap:14px;color:var(--gold);font-size:10px;letter-spacing:4px;text-transform:uppercase;opacity:.85}
+.topline::before,.topline::after{content:"";width:35px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.topline::after{transform:rotate(180deg)}
+header{text-align:center;padding:28px 0 35px}
+.symbol{color:var(--gold);font-size:29px;margin-bottom:14px;text-shadow:0 0 25px rgba(216,189,131,.45);animation:breathe 4s ease-in-out infinite}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,8vw,75px);line-height:1.05;font-weight:500;letter-spacing:5px;color:#f1e7d0;text-shadow:0 0 35px rgba(191,194,224,.12)}
+.subtitle{margin-top:17px;color:#aab0c4;font-size:11px;letter-spacing:3px;text-transform:uppercase;line-height:2}
+.intro{max-width:590px;margin:0 auto 42px;text-align:center;color:#b4b8c8;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.65;font-style:italic}
+.divider{display:flex;align-items:center;justify-content:center;gap:13px;margin:0 auto 24px;color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.divider::before,.divider::after{content:"";height:1px;width:55px;background:linear-gradient(90deg,transparent,var(--border))}
+.divider::after{transform:rotate(180deg)}
+.chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.chapter{position:relative;min-height:245px;padding:25px 24px 22px;overflow:hidden;background:linear-gradient(145deg,rgba(19,28,54,.88),var(--panel));border:1px solid var(--border);border-radius:5px;transition:border-color .35s,transform .35s,background .35s;display:flex;flex-direction:column}
+.chapter::before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;top:-100px;right:-70px;background:rgba(216,189,131,.07);filter:blur(25px);pointer-events:none}
+.chapter.available:hover{transform:translateY(-4px);border-color:rgba(216,189,131,.6);background:linear-gradient(145deg,rgba(25,36,66,.96),rgba(10,16,34,.92))}
+.chapter-number{color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:17px}
+.chapter h2{position:relative;color:#eee4d0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:29px;line-height:1.15;margin-bottom:13px}
+.chapter p{color:#a7aec1;font-size:12px;line-height:1.85;margin-bottom:22px}
+.chapter-bottom{margin-top:auto}
+.chapter-link{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:13px 15px;border:1px solid rgba(216,189,131,.4);border-radius:2px;color:var(--gold-light);background:rgba(216,189,131,.055);text-decoration:none;font-family:'Manrope',sans-serif;font-size:11px;letter-spacing:1px;transition:.3s;cursor:pointer;position:relative;z-index:1}
+.chapter-link:hover{background:rgba(216,189,131,.14);border-color:var(--gold)}
+.arrow{font-size:17px;transition:transform .3s}
+.chapter-link:hover .arrow{transform:translateX(4px)}
+.locked{border-color:rgba(137,147,175,.15);background:linear-gradient(145deg,rgba(13,19,38,.65),rgba(7,11,24,.82))}
+.locked .chapter-number{color:#777f9a}
+.locked h2{color:#aeb4c6}
+.locked p{color:#858da5}
+.lock-symbol{position:absolute;top:23px;right:22px;color:#858ba1;font-size:15px;opacity:.75}
+.locked-label{display:block;padding:13px 12px;border:1px dashed rgba(137,147,175,.24);color:#858da5;text-align:center;font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.locked-message{color:#9da4ba!important;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px!important;line-height:1.55!important;margin-bottom:22px!important}
+.status{display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;color:#b6c5b0;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#9cba91;box-shadow:0 0 9px rgba(156,186,145,.65);flex-shrink:0}
+.timer-status{color:var(--gold)}
+.timer-status .status-dot{background:var(--gold);box-shadow:0 0 9px rgba(216,189,131,.65)}
+.countdown{display:flex;gap:8px;margin-bottom:17px}
+.time-unit{flex:1;min-width:0;text-align:center;padding:10px 3px;background:rgba(0,0,0,.18);border:1px solid rgba(216,189,131,.12)}
+.time-unit strong{display:block;font-family:'Cormorant Garamond',serif;color:#eee0bf;font-size:23px;font-weight:500}
+.time-unit span{display:block;margin-top:2px;color:#7f879e;font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.section-note{text-align:center;color:#747d95;font-size:11px;letter-spacing:1px;line-height:1.9;margin:26px 0 42px}
+.quote{max-width:600px;margin:0 auto 40px;padding:25px 20px;border-top:1px solid rgba(216,189,131,.17);border-bottom:1px solid rgba(216,189,131,.17);text-align:center}
+.quote p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,27px);font-style:italic;color:#d4c6a7;line-height:1.5}
+.quote span{display:block;margin-top:12px;color:#727b94;font-size:9px;letter-spacing:3px;text-transform:uppercase}
+footer{text-align:center;padding:10px 0 0;color:#636c84;font-size:9px;letter-spacing:2px;line-height:2.2;text-transform:uppercase}
+.footer-star{color:var(--gold);font-size:15px;margin-bottom:9px}
+.toast{position:fixed;z-index:10;bottom:25px;left:50%;transform:translate(-50%,20px);width:max-content;max-width:calc(100% - 32px);padding:14px 20px;border:1px solid var(--border);background:rgba(8,13,29,.96);color:var(--gold-light);font-size:12px;line-height:1.6;text-align:center;opacity:0;pointer-events:none;transition:.35s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@keyframes breathe{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+@media(max-width:650px){
+ .page{width:min(100% - 24px,500px);padding-top:40px}
+ .chapters{grid-template-columns:1fr}
+ .chapter{min-height:220px;padding:23px 20px}
+ .intro{font-size:19px;margin-bottom:32px}
+ h1{letter-spacing:3px}
+ .subtitle{letter-spacing:2px}
 }
-
-.nebula {
-  position: fixed;
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
-  filter: blur(110px);
-  opacity: .10;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.nebula.one {
-  background: #536fbd;
-  top: 8%;
-  left: -180px;
-}
-
-.nebula.two {
-  background: #a78b54;
-  right: -220px;
-  top: 42%;
-}
-
-.page {
-  position: relative;
-  z-index: 1;
-  width: min(100% - 32px, 940px);
-  margin: 0 auto;
-  padding: 65px 0 35px;
-}
-
-.topline {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  color: var(--gold);
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  opacity: .85;
-}
-
-.topline::before,
-.topline::after {
-  content: "";
-  width: 35px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold));
-}
-
-.topline::after {
-  transform: rotate(180deg);
-}
-
-header {
-  text-align: center;
-  padding: 28px 0 35px;
-}
-
-.symbol {
-  color: var(--gold);
-  font-size: 29px;
-  margin-bottom: 14px;
-  text-shadow: 0 0 25px rgba(216,189,131,.45);
-  animation: breathe 4s ease-in-out infinite;
-}
-
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 8vw, 75px);
-  line-height: 1.05;
-  font-weight: 500;
-  letter-spacing: 5px;
-  color: #f1e7d0;
-  text-shadow: 0 0 35px rgba(191, 194, 224, .12);
-}
-
-.subtitle {
-  margin-top: 17px;
-  color: #aab0c4;
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  line-height: 2;
-}
-
-.intro {
-  max-width: 590px;
-  margin: 0 auto 42px;
-  text-align: center;
-  color: #b4b8c8;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 21px;
-  line-height: 1.65;
-  font-style: italic;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 13px;
-  margin: 0 auto 24px;
-  color: var(--gold);
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  height: 1px;
-  width: 55px;
-  background: linear-gradient(90deg, transparent, var(--border));
-}
-
-.divider::after {
-  transform: rotate(180deg);
-}
-
-.chapters {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.chapter {
-  position: relative;
-  min-height: 245px;
-  padding: 25px 24px 22px;
-  overflow: hidden;
-  background: linear-gradient(145deg, rgba(19,28,54,.88), var(--panel));
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  transition: border-color .35s, transform .35s, background .35s;
-  display: flex;
-  flex-direction: column;
-}
-
-.chapter::before {
-  content: "";
-  position: absolute;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  top: -100px;
-  right: -70px;
-  background: rgba(216,189,131,.07);
-  filter: blur(25px);
-}
-
-.chapter.available:hover {
-  transform: translateY(-4px);
-  border-color: rgba(216,189,131,.6);
-  background: linear-gradient(145deg, rgba(25,36,66,.96), rgba(10,16,34,.92));
-}
-
-.chapter-number {
-  color: var(--gold);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 17px;
-}
-
-.chapter h2 {
-  position: relative;
-  color: #eee4d0;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 500;
-  font-size: 29px;
-  line-height: 1.15;
-  margin-bottom: 13px;
-}
-
-.chapter p {
-  color: #a7aec1;
-  font-size: 12px;
-  line-height: 1.85;
-  margin-bottom: 22px;
-}
-
-.chapter-bottom {
-  margin-top: auto;
-}
-
-.chapter-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  padding: 13px 15px;
-  border: 1px solid rgba(216,189,131,.4);
-  border-radius: 2px;
-  color: var(--gold-light);
-  background: rgba(216,189,131,.055);
-  text-decoration: none;
-  font-family: 'Manrope', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1px;
-  transition: .3s;
-  cursor: pointer;
-}
-
-.chapter-link:hover {
-  background: rgba(216,189,131,.14);
-  border-color: var(--gold);
-}
-
-.arrow {
-  font-size: 17px;
-  transition: transform .3s;
-}
-
-.chapter-link:hover .arrow {
-  transform: translateX(4px);
-}
-
-.locked {
-  border-color: rgba(137,147,175,.15);
-  background: linear-gradient(145deg, rgba(13,19,38,.65), rgba(7,11,24,.82));
-}
-
-.locked .chapter-number {
-  color: #777f9a;
-}
-
-.locked h2 {
-  color: #aeb4c6;
-}
-
-.locked p {
-  color: #858da5;
-}
-
-.lock-symbol {
-  position: absolute;
-  top: 23px;
-  right: 22px;
-  color: #858ba1;
-  font-size: 15px;
-  opacity: .75;
-}
-
-.locked-label {
-  display: block;
-  padding: 13px 12px;
-  border: 1px dashed rgba(137,147,175,.24);
-  color: #858da5;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.locked-message {
-  color: #9da4ba !important;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 17px !important;
-  line-height: 1.55 !important;
-  margin-bottom: 22px !important;
-}
-
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 16px;
-  color: #b6c5b0;
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #9cba91;
-  box-shadow: 0 0 9px rgba(156,186,145,.65);
-}
-
-.timer-status {
-  color: var(--gold);
-}
-
-.timer-status .status-dot {
-  background: var(--gold);
-  box-shadow: 0 0 9px rgba(216,189,131,.65);
-}
-
-.countdown {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 17px;
-}
-
-.time-unit {
-  flex: 1;
-  text-align: center;
-  padding: 10px 3px;
-  background: rgba(0,0,0,.18);
-  border: 1px solid rgba(216,189,131,.12);
-}
-
-.time-unit strong {
-  display: block;
-  font-family: 'Cormorant Garamond', serif;
-  color: #eee0bf;
-  font-size: 23px;
-  font-weight: 500;
-}
-
-.time-unit span {
-  display: block;
-  margin-top: 2px;
-  color: #7f879e;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.section-note {
-  text-align: center;
-  color: #747d95;
-  font-size: 11px;
-  letter-spacing: 1px;
-  line-height: 1.9;
-  margin: 26px 0 42px;
-}
-
-.quote {
-  max-width: 600px;
-  margin: 0 auto 40px;
-  padding: 25px 20px;
-  border-top: 1px solid rgba(216,189,131,.17);
-  border-bottom: 1px solid rgba(216,189,131,.17);
-  text-align: center;
-}
-
-.quote p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(20px, 4vw, 27px);
-  font-style: italic;
-  color: #d4c6a7;
-  line-height: 1.5;
-}
-
-.quote span {
-  display: block;
-  margin-top: 12px;
-  color: #727b94;
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-footer {
-  text-align: center;
-  padding: 10px 0 0;
-  color: #636c84;
-  font-size: 9px;
-  letter-spacing: 2px;
-  line-height: 2.2;
-  text-transform: uppercase;
-}
-
-.footer-star {
-  color: var(--gold);
-  font-size: 15px;
-  margin-bottom: 9px;
-}
-
-.toast {
-  position: fixed;
-  z-index: 10;
-  bottom: 25px;
-  left: 50%;
-  transform: translate(-50%, 20px);
-  width: max-content;
-  max-width: calc(100% - 32px);
-  padding: 14px 20px;
-  border: 1px solid var(--border);
-  background: rgba(8,13,29,.96);
-  color: var(--gold-light);
-  font-size: 12px;
-  line-height: 1.6;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: .35s;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
-@keyframes breathe {
-  0%, 100% { opacity: .65; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: .15; }
-  50% { opacity: 1; }
-}
-
-@keyframes meteor {
-  0% {
-    transform: translate(0, 0) rotate(35deg);
-    opacity: 0;
-  }
-  8% { opacity: .9; }
-  30% { opacity: 0; }
-  100% {
-    transform: translate(-420px, 500px) rotate(35deg);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 650px) {
-  .page {
-    width: min(100% - 24px, 500px);
-    padding-top: 40px;
-  }
-
-  .chapters {
-    grid-template-columns: 1fr;
-  }
-
-  .chapter {
-    min-height: 220px;
-    padding: 23px 20px;
-  }
-
-  .intro {
-    font-size: 19px;
-    margin-bottom: 32px;
-  }
-
-  h1 {
-    letter-spacing: 3px;
-  }
-
-  .subtitle {
-    letter-spacing: 2px;
-  }
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
-
 <body>
-<canvas id="sky"></canvas>
+<canvas id="sky" aria-hidden="true"></canvas>
 <div class="nebula one"></div>
 <div class="nebula two"></div>
 
 <main class="page">
   <div class="topline">classified collection</div>
-
   <header>
     <div class="symbol">✦</div>
     <h1>THE UNKNOWN<br>ARCHIVE</h1>
     <p class="subtitle">три звезды · одна история · пять глав</p>
   </header>
 
-  <p class="intro">
-    «Некоторые истории начинаются задолго до того,
-    как кто-то решается их рассказать»
-  </p>
-
+  <p class="intro">«Некоторые истории начинаются задолго до того, как кто-то решается их рассказать»</p>
   <div class="divider">архивные записи</div>
 
   <section class="chapters">
-
-    <!-- ГЛАВА I: ДОСТУПНА СРАЗУ -->
     <article class="chapter available">
       <div class="chapter-number">Chapter I · 001</div>
-      <div class="status">
-        <span class="status-dot"></span>
-        доступ разрешён
-      </div>
+      <div class="status"><span class="status-dot"></span>доступ разрешён</div>
       <h2>Начало истории</h2>
-      <p>
-        Первая запись открыта. Всё начинается с нескольких деталей,
-        которые на первый взгляд ничего не значат.
-      </p>
+      <p>Первая запись открыта. Всё начинается с нескольких деталей, которые на первый взгляд ничего не значат.</p>
       <div class="chapter-bottom">
-        <a class="chapter-link"
-           href="https://fjfjfjfj-svg.github.io/three-starss/">
-          <span>Открыть первую запись</span>
-          <span class="arrow">→</span>
-        </a>
+        <a class="chapter-link" href="https://fjfjfjfj-svg.github.io/three-starss/"><span>Открыть первую запись</span><span class="arrow">→</span></a>
       </div>
     </article>
 
-    <!-- ГЛАВА II: ОТКРЫТИЕ 29 ОКТЯБРЯ 2026, 18:00 UTC+5 -->
     <article class="chapter" id="chapter2">
       <div class="chapter-number">Chapter II · 002</div>
-      <div class="status timer-status" id="status2">
-        <span class="status-dot"></span>
-        доступ ограничен
-      </div>
+      <div class="status timer-status" id="status2"><span class="status-dot"></span>доступ ограничен</div>
       <h2>Вторая запись</h2>
-      <p>
-        В архиве обнаружены новые материалы.
-        Но некоторые сведения должны оставаться скрытыми
-        до назначенного часа.
-      </p>
+      <p>В архиве обнаружены новые материалы. Но некоторые сведения должны оставаться скрытыми до назначенного часа.</p>
       <div class="chapter-bottom" id="content2">
-        <div class="countdown" id="timer2">
-          <div class="time-unit"><strong>--</strong><span>дней</span></div>
-          <div class="time-unit"><strong>--</strong><span>часов</span></div>
-          <div class="time-unit"><strong>--</strong><span>минут</span></div>
-          <div class="time-unit"><strong>--</strong><span>секунд</span></div>
-        </div>
+        <div class="countdown" id="timer2"></div>
         <div class="locked-label">запись запечатана</div>
       </div>
     </article>
 
-    <!-- ГЛАВА III: ОТКРЫТИЕ 31 ОКТЯБРЯ 2026, 12:00 UTC+5 -->
     <article class="chapter" id="chapter3">
       <div class="chapter-number">Chapter III · 003</div>
-      <div class="status timer-status" id="status3">
-        <span class="status-dot"></span>
-        доступ ограничен
-      </div>
+      <div class="status timer-status" id="status3"><span class="status-dot"></span>доступ ограничен</div>
       <h2>Последнее послание</h2>
-      <p>
-        Иногда самая важная часть истории скрывается
-        не в документах, а между строк.
-      </p>
+      <p>Иногда самая важная часть истории скрывается не в документах, а между строк.</p>
       <div class="chapter-bottom" id="content3">
-        <div class="countdown" id="timer3">
-          <div class="time-unit"><strong>--</strong><span>дней</span></div>
-          <div class="time-unit"><strong>--</strong><span>часов</span></div>
-          <div class="time-unit"><strong>--</strong><span>минут</span></div>
-          <div class="time-unit"><strong>--</strong><span>секунд</span></div>
-        </div>
+        <div class="countdown" id="timer3"></div>
         <div class="locked-label">доступ ожидает подтверждения</div>
       </div>
     </article>
 
-    <!-- ГЛАВА IV: ПОКА НЕДОСТУПНА -->
-    <article class="chapter locked">
-      <span class="lock-symbol">♧</span>
+    <article class="chapter locked" id="chapter4">
+      <span class="lock-symbol" id="lock4">♧</span>
       <div class="chapter-number">Chapter IV · 004</div>
-      <div class="status">
-        <span class="status-dot" style="background:#777f9a;box-shadow:none"></span>
-        запись не найдена
-      </div>
+      <div class="status timer-status" id="status4"><span class="status-dot"></span>доступ ограничен</div>
       <h2>Следы автора</h2>
-      <p class="locked-message">
-        «Некоторые следы появляются лишь тогда,
-        когда наблюдатель сам становится частью истории»
-      </p>
-      <div class="chapter-bottom">
-        <div class="locked-label">материалы временно засекречены</div>
+      <p class="locked-message">«Некоторые следы появляются лишь тогда, когда наблюдатель сам становится частью истории»</p>
+      <div class="chapter-bottom" id="content4">
+        <div class="countdown" id="timer4"></div>
+        <div class="locked-label" id="label4">материалы временно засекречены</div>
       </div>
     </article>
 
-    <!-- ГЛАВА V: ПОКА НЕДОСТУПНА -->
-    <article class="chapter locked">
-      <span class="lock-symbol">♧</span>
+    <article class="chapter locked" id="chapter5">
+      <span class="lock-symbol" id="lock5">♧</span>
       <div class="chapter-number">Chapter V · 005</div>
-      <div class="status">
-        <span class="status-dot" style="background:#777f9a;box-shadow:none"></span>
-        файл отсутствует
-      </div>
+      <div class="status timer-status" id="status5"><span class="status-dot"></span>доступ ограничен</div>
       <h2>За именем архива</h2>
-      <p class="locked-message">
-        «Последняя страница ещё не написана.
-        Возможно, архив ждёт того, кто сможет прочесть его до конца»
-      </p>
-      <div class="chapter-bottom">
-        <div class="locked-label">доступ закрыт до завершения расследования</div>
+      <p class="locked-message">«Последняя страница ещё не написана. Возможно, архив ждёт того, кто сможет прочесть его до конца»</p>
+      <div class="chapter-bottom" id="content5">
+        <div class="countdown" id="timer5"></div>
+        <div class="locked-label" id="label5">доступ закрыт до завершения расследования</div>
       </div>
     </article>
-
   </section>
 
   <p class="section-note">
@@ -640,10 +174,7 @@ footer {
   </p>
 
   <div class="quote">
-    <p>
-      «Если ты читаешь это, значит, история уже нашла тебя.<br>
-      Но готов ли ты узнать, кто оставил первый след?»
-    </p>
+    <p>«Если ты читаешь это, значит, история уже нашла тебя.<br>Но готов ли ты узнать, кто оставил первый след?»</p>
     <span>из неизвестного источника</span>
   </div>
 
@@ -654,224 +185,167 @@ footer {
   </footer>
 </main>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ================================
-   ЗВЁЗДНОЕ НЕБО И МЕТЕОРЫ
-================================ */
+"use strict";
 
+/* ЗВЁЗДНОЕ НЕБО И МЕТЕОРЫ */
 const canvas = document.getElementById("sky");
 const ctx = canvas.getContext("2d");
+let stars = [], meteors = [], width = 0, height = 0, dpr = 1;
 
-let stars = [];
-let meteors = [];
-let width = 0;
-let height = 0;
-
-function resizeSky() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
+function resizeSky(){
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
   width = window.innerWidth;
   height = window.innerHeight;
-
   canvas.width = width * dpr;
   canvas.height = height * dpr;
   canvas.style.width = width + "px";
   canvas.style.height = height + "px";
-
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  stars = Array.from(
-    { length: Math.min(230, Math.floor(width * height / 4300)) },
-    () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: Math.random() * 1.35 + .2,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * .018 + .003
-    })
-  );
+  stars = Array.from({length:Math.min(230,Math.floor(width*height/4300))},()=>({
+    x:Math.random()*width,y:Math.random()*height,r:Math.random()*1.35+.2,
+    phase:Math.random()*Math.PI*2,speed:Math.random()*.018+.003
+  }));
 }
 
-function drawSky() {
-  ctx.clearRect(0, 0, width, height);
-
+function drawSky(){
+  ctx.clearRect(0,0,width,height);
   const now = Date.now() * .001;
-
-  for (const s of stars) {
-    const alpha = .18 + .72 *
-      ((Math.sin(now * s.speed * 15 + s.phase) + 1) / 2);
-
+  for(const s of stars){
+    const alpha = .18 + .72*((Math.sin(now*s.speed*15+s.phase)+1)/2);
     ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     ctx.fillStyle = `rgba(230,235,255,${alpha})`;
     ctx.fill();
-
-    if (s.r > 1.15 && alpha > .8) {
+    if(s.r>1.15 && alpha>.8){
       ctx.beginPath();
-      ctx.moveTo(s.x - 3, s.y);
-      ctx.lineTo(s.x + 3, s.y);
-      ctx.moveTo(s.x, s.y - 3);
-      ctx.lineTo(s.x, s.y + 3);
-      ctx.strokeStyle = `rgba(216,189,131,${alpha * .5})`;
+      ctx.moveTo(s.x-3,s.y);ctx.lineTo(s.x+3,s.y);
+      ctx.moveTo(s.x,s.y-3);ctx.lineTo(s.x,s.y+3);
+      ctx.strokeStyle=`rgba(216,189,131,${alpha*.5})`;
       ctx.stroke();
     }
   }
-
-  if (Math.random() < .008 && meteors.length < 2) {
-    meteors.push({
-      x: Math.random() * width * 1.2,
-      y: Math.random() * height * .35,
-      life: 0,
-      length: 70 + Math.random() * 100,
-      speed: 8 + Math.random() * 5
-    });
+  if(Math.random()<.008 && meteors.length<2){
+    meteors.push({x:Math.random()*width*1.2,y:Math.random()*height*.35,life:0,length:70+Math.random()*100,speed:8+Math.random()*5});
   }
-
-  meteors = meteors.filter(m => m.life < 34);
-
-  for (const m of meteors) {
-    m.x -= m.speed;
-    m.y += m.speed * .7;
-    m.life++;
-
-    const alpha = Math.sin(Math.PI * m.life / 34);
-
-    const gradient = ctx.createLinearGradient(
-      m.x, m.y,
-      m.x + m.length, m.y - m.length * .7
-    );
-
-    gradient.addColorStop(0, "rgba(216,189,131,0)");
-    gradient.addColorStop(1, `rgba(230,225,205,${alpha})`);
-
-    ctx.beginPath();
-    ctx.moveTo(m.x, m.y);
-    ctx.lineTo(m.x + m.length, m.y - m.length * .7);
-    ctx.strokeStyle = gradient;
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
+  meteors=meteors.filter(m=>m.life<34);
+  for(const m of meteors){
+    m.x-=m.speed;m.y+=m.speed*.7;m.life++;
+    const alpha=Math.sin(Math.PI*m.life/34);
+    const gradient=ctx.createLinearGradient(m.x,m.y,m.x+m.length,m.y-m.length*.7);
+    gradient.addColorStop(0,"rgba(216,189,131,0)");
+    gradient.addColorStop(1,`rgba(230,225,205,${alpha})`);
+    ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x+m.length,m.y-m.length*.7);
+    ctx.strokeStyle=gradient;ctx.lineWidth=1.2;ctx.stroke();
   }
-
   requestAnimationFrame(drawSky);
 }
-
-window.addEventListener("resize", resizeSky);
+window.addEventListener("resize",resizeSky);
 resizeSky();
 drawSky();
 
-
-/* ================================
-   ОГРАНИЧЕНИЯ ПО ВРЕМЕНИ
-   ЧАСОВОЙ ПОЯС КАЗАХСТАНА: UTC+5
-================================ */
-
+/* ТАЙМЕРЫ: ЧАСОВОЙ ПОЯС КАЗАХСТАНА UTC+5 */
 const chapters = [
   {
-    id: 2,
-    url: "https://fjfjfjfj-svg.github.io/Seecret/",
-    release: new Date("2026-10-29T18:00:00+05:00")
+    id:2,
+    url:"https://fjfjfjfj-svg.github.io/Seecret/",
+    release:new Date("2026-10-29T18:00:00+05:00")
   },
   {
-    id: 3,
-    url: "https://fjfjfjfj-svg.github.io/-/",
-    release: new Date("2026-10-31T12:00:00+05:00")
+    id:3,
+    url:"https://fjfjfjfj-svg.github.io/-/",
+    release:new Date("2026-10-31T12:00:00+05:00")
+  },
+  {
+    id:4,
+    url:"https://fjfjfjfj-svg.github.io/..-/",
+    release:new Date("2026-11-02T18:00:00+05:00")
+  },
+  {
+    id:5,
+    url:"https://fjfjfj-svg.github.io/...-/",
+    release:new Date("2026-11-05T18:00:00+05:00")
   }
 ];
 
-const pad = n => String(n).padStart(2, "0");
+const pad = n => String(n).padStart(2,"0");
 
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
   toast.classList.add("show");
-
   clearTimeout(showToast.timeout);
-
-  showToast.timeout = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 4000);
+  showToast.timeout=setTimeout(()=>toast.classList.remove("show"),4000);
 }
 
-function setUnlocked(chapter) {
-  const id = chapter.id;
-  const status = document.getElementById("status" + id);
-  const content = document.getElementById("content" + id);
+function setUnlocked(chapter){
+  const id=chapter.id;
+  const status=document.getElementById("status"+id);
+  const content=document.getElementById("content"+id);
+  const card=document.getElementById("chapter"+id);
+  if(!status||!content)return;
 
   status.classList.remove("timer-status");
-  status.innerHTML =
-    '<span class="status-dot"></span>доступ разрешён';
+  status.innerHTML='<span class="status-dot"></span>доступ разрешён';
+  card.classList.remove("locked");
+  card.classList.add("available");
 
-  content.innerHTML = `
+  content.innerHTML=`
     <a class="chapter-link" href="${chapter.url}">
-      <span>Открыть запись</span>
-      <span class="arrow">→</span>
+      <span>Открыть запись</span><span class="arrow">→</span>
     </a>
   `;
+
+  const lock=document.getElementById("lock"+id);
+  if(lock)lock.style.display="none";
 }
 
-function updateCountdown(chapter) {
-  const id = chapter.id;
-  const now = Date.now();
-  const remaining = chapter.release.getTime() - now;
+function updateCountdown(chapter){
+  const id=chapter.id;
+  const remaining=chapter.release.getTime()-Date.now();
 
-  if (remaining <= 0) {
+  if(remaining<=0){
     setUnlocked(chapter);
     return;
   }
 
-  const totalSeconds = Math.floor(remaining / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const totalSeconds=Math.floor(remaining/1000);
+  const days=Math.floor(totalSeconds/86400);
+  const hours=Math.floor((totalSeconds%86400)/3600);
+  const minutes=Math.floor((totalSeconds%3600)/60);
+  const seconds=totalSeconds%60;
+  const timer=document.getElementById("timer"+id);
+  if(!timer)return;
 
-  const timer = document.getElementById("timer" + id);
-
-  if (!timer) return;
-
-  const values = [days, hours, minutes, seconds];
-
-  timer.innerHTML = values.map((value, index) => {
-    const labels = ["дней", "часов", "минут", "секунд"];
-
-    return `
-      <div class="time-unit">
-        <strong>${pad(value)}</strong>
-        <span>${labels[index]}</span>
-      </div>
-    `;
-  }).join("");
+  const values=[days,hours,minutes,seconds];
+  const labels=["дней","часов","минут","секунд"];
+  timer.innerHTML=values.map((value,index)=>`
+    <div class="time-unit">
+      <strong>${pad(value)}</strong>
+      <span>${labels[index]}</span>
+    </div>
+  `).join("");
 }
 
-function updateAll() {
+function updateAll(){
   chapters.forEach(updateCountdown);
 }
 
 updateAll();
-setInterval(updateAll, 1000);
+setInterval(updateAll,1000);
 
-
-/* ================================
-   ЗАЩИТА ОТ СЛУЧАЙНОГО ПЕРЕХОДА
-================================ */
-
-document.addEventListener("click", event => {
-  const link = event.target.closest(".chapter-link");
-
-  if (!link) return;
-
-  const chapter = chapters.find(ch =>
-    link.href === ch.url
-  );
-
-  if (chapter && Date.now() < chapter.release.getTime()) {
+/* ПРЕДОХРАНИТЕЛЬ ОТ СЛУЧАЙНОГО ПЕРЕХОДА */
+document.addEventListener("click",event=>{
+  const link=event.target.closest(".chapter-link");
+  if(!link)return;
+  const chapter=chapters.find(ch=>link.href===ch.url);
+  if(chapter && Date.now()<chapter.release.getTime()){
     event.preventDefault();
     showToast("Запись ещё запечатана. Время её открытия не наступило.");
   }
 });
 </script>
-
 </body>
 </html>
